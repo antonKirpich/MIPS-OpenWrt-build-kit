@@ -1,19 +1,52 @@
-# Building and Running C/C++ Programs on OpenWrt (MT7628AN / MIPS)
+# Building and Running C/C++ Programs on OpenWrt (MIPS)
 
-By following these instructions, you will be able to compile a program written in C/C++ and run it on the target MT7628 device.
-All of the examples provided have been tested on a router **TP-Link TL-WR840N v6** flashed with OpenWrt 21.02. Host PC - x86, Win 11, WSL Ubuntu 22.04.3 LTS.
+This guide explains how to build and run C/C++ programs for devices running OpenWrt on **MIPS architecture**.
+The MIPS architecture is widely used in routers, and it is quite likely that your router is also based on this architecture.
 
-**Device Info**
-- SoC: MediaTek [MT7628AN](https://deviwiki.com/wiki/MediaTek_MT7628)
-- Memory: Flash - 4MB / RAM - 32MB
-- Architecture: mipsel (little-endian)
-- Target: ramips/mt76x8
-- OS: [OpenWrt](https://openwrt.org/) (musl libc)
+## Do I have MIPS?
+On your OpenWrt device:
+```bash
+uname -m
+```
+
+You should see the following result: `mips` or `mipsel`
+
+## Requirements
+- Host OS: Linux / macOS / Windows (with WSL)
+- MIPS target device running OpenWrt
+
+<details>
+  <summary>Tested on</summary>
+
+  - Model: TP-Link TL-WR840N v6
+  - SoC: MediaTek [MT7628AN](https://deviwiki.com/wiki/MediaTek_MT7628)
+  - Memory: Flash - 4MB / RAM - 32MB
+  - Architecture: mipsel (little-endian)
+  - Target: ramips/mt76x8
+  - OS: OpenWrt v.21.02
+  
+</details>
 
 ## Prepare SDK
 
-Download the OpenWrt SDK for your target:
+### Detect OpenWrt version and target
+Run on router via SSH:
+```bash
+cat /etc/openwrt_release
+```
 
+Example output:
+```
+DISTRIB_ID='OpenWrt'
+DISTRIB_RELEASE='21.02.0'
+DISTRIB_TARGET='ramips/mt76x8'
+DISTRIB_ARCH='mipsel_24kc'
+```
+
+### Download the OpenWrt SDK for your target
+
+Open [openwrt releases](https://downloads.openwrt.org/releases/), choose your version and target, download archive `openwrt-sdk-*.tar`.  
+Example:
 ```bash
 wget https://archive.openwrt.org/releases/21.02.0/targets/ramips/mt76x8/openwrt-sdk-21.02.0-ramips-mt76x8_gcc-8.4.0_musl.Linux-x86_64.tar.xz
 tar -xf openwrt-sdk-*.tar.xz
